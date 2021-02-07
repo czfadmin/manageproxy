@@ -1,25 +1,89 @@
 {
 	"name": "manageproxy",
 	"displayName": "ManageProxy",
-	"description": "the proxy management",
-	"version": "0.0.1",
+	"description": "Http Proxy management",
+	"version": "0.1.1",
 	"engines": {
 		"vscode": "^1.53.0"
 	},
 	"categories": [
 		"Other"
 	],
+	"author": "czfadmin",
+	"private": true,
 	"activationEvents": [
-		"onCommand:manageproxy.helloWorld"
+		"onCommand:manageproxy.toggleHttpProxy",
+		"onCommand:manageproxy.addHttpProxy",
+		"onCommand:manageproxy.testHttpProxy",
+		"onCommand:manageproxy.enableAutoChangeHttpProxy"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
+		"configuration": {
+			"title": "Manage Proxy",
+			"properties": {
+				"manageproxy.autoChange": {
+					"type": "boolean",
+					"default": false,
+					"enum": [
+						true,
+						false
+					],
+					"description": "Auto Change Http Proxy"
+				},
+				"manageproxy.notifier": {
+					"type": "boolean",
+					"default": false,
+					"enum": [
+						true,
+						false
+					],
+					"description": "Manage Proxy toggle notification"
+				},
+				"manageproxy.pingInterval": {
+					"type": "number",
+					"default": 3000,
+					"description": "Automatic switching ping interval"
+				},
+				"manageproxy.proxyList": {
+					"type": "array",
+					"default": [
+						"http://127.0.0.1:80"
+					],
+					"description": "Http proxy list"
+				}
+			}
+		},
 		"commands": [
 			{
-				"command": "manageproxy.helloWorld",
-				"title": "Hello World"
+				"command": "manageproxy.toggleHttpProxy",
+				"title": "Toggle Http Proxy",
+				"category": "Manage Proxy"
+			},
+			{
+				"command": "manageproxy.addHttpProxy",
+				"title": "Add Http Proxy",
+				"category": "Manage Proxy"
+			},
+			{
+				"command": "manageproxy.testHttpProxy",
+				"title": "Test Proxy ",
+				"category": "Manage Proxy"
+			},
+			{
+				"command": "manageproxy.enableAutoChangeHttpProxy",
+				"title": "Enable auto change http proxy",
+				"category": "Manage Proxy"
 			}
-		]
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "manageproxy.toggleHttpProxy",
+					"group": "navigator"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run package",
@@ -47,5 +111,8 @@
 		"ts-loader": "^8.0.11",
 		"webpack": "^5.10.0",
 		"webpack-cli": "^4.2.0"
+	},
+	"dependencies": {
+		"ping": "^0.4.0"
 	}
 }
